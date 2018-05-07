@@ -7,7 +7,7 @@
     tools:context="com.example.wifilocator.MainActivity">
 
     <TextView
-        android:id="@+id/readOut"
+        android:id="@+id/readSignal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="filler"
