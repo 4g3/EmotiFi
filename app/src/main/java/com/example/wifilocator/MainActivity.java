@@ -23,17 +23,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
             }
 
-    class wifi {
-        int signalStrength = 0;
-    }
-
     public int loop(Context context) throws InterruptedException {
         while(true) {
-            WifiManager signalStrength = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
-            String wifiInfo = WifiManager.EXTRA_WIFI_INFO;
-            Thread.sleep(1000);
+            WifiManager signalStrength = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+            try {
+                Thread.sleep(1500);
+            } catch(InterruptedException e) {
+                System.out.println("got interrupted!");
+            }
             setContentView(R.layout.activity_main);
-            TextView readSignal = (TextView) findViewById(R.id.readSignal);
+            TextView readSignal = findViewById(R.id.readSignal);
             readSignal.setText("My double value is" + signalStrength);
         }
     }
