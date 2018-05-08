@@ -1,6 +1,9 @@
 package com.example.wifilocator;
 
+import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -12,6 +15,8 @@ import com.example.wifilocator.R;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
+
 import static android.content.Context.WIFI_SERVICE;
 
 @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -20,20 +25,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-            }
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        List<ScanResult> wifiList = wifiManager.getScanResults();
 
-    public int loop(Context context) throws InterruptedException {
-        while(true) {
-            WifiManager signalStrength = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-            try {
-                Thread.sleep(1500);
-            } catch(InterruptedException e) {
-                System.out.println("got interrupted!");
-            }
+        for (ScanResult scanResult : wifiList) {
+            int level = WifiManager.calculateSignalLevel(scanResult.level, 5);
             setContentView(R.layout.activity_main);
-            TextView readSignal = findViewById(R.id.readSignal);
-            readSignal.setText("My double value is" + signalStrength);
+            TextView readSignal = findViewById(R.id.readSignal0);
+            String hero = "This is yours!";
+            readSignal.setText(hero + level);
         }
+
+        int rssi = wifiManager.getConnectionInfo().getRssi();
+        int level = WifiManager.calculateSignalLevel(rssi, 5);
+        setContentView(R.layout.activity_main);
+        TextView readSignal = findViewById(R.id.readSignal1);
+        String hero = "This is yours!";
+        readSignal.setText(hero + level);
     }
 }
